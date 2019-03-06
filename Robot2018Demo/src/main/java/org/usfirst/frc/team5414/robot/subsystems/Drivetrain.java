@@ -25,11 +25,6 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  *
@@ -122,78 +117,8 @@ public class Drivetrain extends Subsystem {
 			
 			
     	}
-    }
-    
-    public EncoderFollower[] pathSetup(Waypoint[] path) {
-        EncoderFollower left = new EncoderFollower();
-        EncoderFollower right = new EncoderFollower();
-        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
-                .02, MAX_VELOCITY, MAX_ACCELERATION, JERK);
-        String pathHash = String.valueOf(path.hashCode());
-        Trajectory toFollow;
-        File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
-        if (!trajectory.exists()) 
-        {
-            toFollow = Pathfinder.generate(path, cfg);
-            Pathfinder.writeToCSV(trajectory, toFollow);
-            System.out.println(pathHash + ".csv not found, wrote to file");
-        } 
-        else 
-        {
-            System.out.println(pathHash + ".csv read from file");
-            toFollow = Pathfinder.readFromCSV(trajectory);
-        }
-
-        TankModifier modifier = new TankModifier(toFollow).modify(RobotMap.wheelBaseWidth); //CHANGE THIS
-        lastGyroError = 0;
-        left = new EncoderFollower(modifier.getLeftTrajectory());
-        right = new EncoderFollower(modifier.getRightTrajectory());
-        left.configureEncoder(getEncoderL(), (int)RobotMap.EncoderTicksPerRev, RobotMap.wheelDiameterMeters);
-        right.configureEncoder(getEncoderR(), (int)RobotMap.EncoderTicksPerRev, RobotMap.wheelDiameterMeters);
-        left.configurePIDVA(RobotMap.MPkP, RobotMap.MPkI, RobotMap.MPkD, 1/MAX_VELOCITY, .05);
-        right.configurePIDVA(RobotMap.MPkP, RobotMap.MPkI, RobotMap.MPkD, 1/MAX_VELOCITY, 05);
-        return new EncoderFollower[]{
-                left, // 0
-                right, // 1
-        };
-    }
-    
-    public boolean pathFollow(EncoderFollower[] followers, boolean reverse) {
-
-        EncoderFollower left = followers[0];
-        EncoderFollower right = followers[1];
-        double l;
-        double r;
-        double localGp = .02;
-        if (!reverse) {
-            localGp *= -1;
-
-            l = left.calculate(-getEncoderL());
-            r = right.calculate(-getEncoderR());
-        } else {
-            l = left.calculate(getEncoderL());
-            r = right.calculate(getEncoderR());
-        }
-
-        double gyro = reverse ? -Robot.gyro.getYaw() - angleOffset : Robot.gyro.getYaw() + angleOffset;
-
-        double desiredHeading = Pathfinder.r2d(left.getHeading());
-        double angleDifference = Pathfinder.boundHalfDegrees(((desiredHeading - gyro)+36000)%360-180);
-        double turn = localGp * angleDifference;
-        
-        if (!reverse) {
-            drive(l + turn, r - turn);
-        } else {
-            drive(-l + turn, -r - turn);
-        }
-
-        if (left.isFinished() && right.isFinished()) {
-            angleOffset = angleDifference;
-        }
-        SmartDashboard.putNumber("MP Left Enc Difference", left.getSegment().x-getEncoderL());
-        return left.isFinished() && right.isFinished();
-    }
-    
+	}
+	
     /*
      * Stitches flatline caused by squaring inputs
      */
