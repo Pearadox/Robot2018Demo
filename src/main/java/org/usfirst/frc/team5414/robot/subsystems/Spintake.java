@@ -114,7 +114,7 @@ public class Spintake extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-    	setDefaultCommand(new SpintakePOVControl());
+    	// setDefaultCommand(new SpintakePOVControl());
     }
 }
 

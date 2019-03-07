@@ -56,16 +56,16 @@ public class OI {
 		btn1.whenPressed(new ArmPincherToggle());
 		// btn2.whenPressed(new ArmThrowbackHigh());
 		// btn3.whenPressed(new ArmThrowbackLowGroup());
-		btn4.whenPressed(new ArmSetLow());
-		btn5.whenPressed(new ArmSetSwitch());
-		btn6.whenPressed(new ArmSetScale());
-		btn7.whileHeld(new ArmDownManual());
-		btn8.whileHeld(new ArmUpManual());
+		// btn4.whenPressed(new ArmSetLow());
+		// btn5.whenPressed(new ArmSetSwitch());
+		// btn6.whenPressed(new ArmSetScale());
+		btn9.whileHeld(new ArmDownManual());
+		btn10.whileHeld(new ArmUpManual());
 		
-		btn9.whileHeld(new SpintakeIntake());
-		btn10.whileHeld(new SpintakeOuttake());
-		btn11.whenPressed(new SpintakePushIn());
-		// btn12.whenPressed(new ArmDownBreakaway());
+		btn11.whileHeld(new SpintakeOuttake());
+		btn12.whileHeld(new SpintakeIntake());
+		// btn11.whenPressed(new SpintakePushOut());
+		// btn12.whenPressed(new SpintakePushIn());
 		
 		//------OPERATOR-------------------------
 		JoystickButton btnOp1 = new JoystickButton(operator, 1);
@@ -81,12 +81,12 @@ public class OI {
 		JoystickButton btnOp13 = new JoystickButton(operator, 13);
 		
 		// btnOp1.whenPressed(new ArmThrowbackHigh());
-		btnOp2.whileHeld(new SpintakeIntake());
-		btnOp3.whenPressed(new ArmSetLow());
-		btnOp4.whenPressed(new ArmSetSwitch());
-		btnOp5.whenPressed(new SpintakePushOut());
+		// btnOp2.whileHeld(new SpintakeIntake());
+		// btnOp3.whenPressed(new ArmSetLow());
+		// btnOp4.whenPressed(new ArmSetSwitch());
+		// btnOp5.whenPressed(new SpintakePushOut());
 		// btnOp6.whenPressed(new ArmSetClimb());
-		btnOp7.whenPressed(new SpintakePushIn());
+		// btnOp7.whenPressed(new SpintakePushIn());
 		// btnOp8.whenPressed(new ClimberStop());
 		// btnOp9.whileHeld(new ClimberDown());
 		// btnOp10.whileHeld(new ClimberUp());
